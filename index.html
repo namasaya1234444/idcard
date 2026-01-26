@@ -1,110 +1,153 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Verifikasi Dokumen KDEI</title>
+  <meta charset="UTF-8">
+  <title>Dukungan Online KDEI</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f2f2f2;
-}
+  <!-- Library Barcode -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 
-.header{
-  background:#1f5fa5;
-  color:#fff;
-  padding:20px;
-}
-.header h1{margin:0;font-size:22px}
-.header p{margin:5px 0 0;font-size:14px}
+  <!-- Library QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-.container{
-  max-width:500px;
-  margin:40px auto;
-  background:#fff;
-  border-radius:8px;
-  box-shadow:0 5px 15px rgba(0,0,0,.2);
-  padding:25px;
-}
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #2c2c2c, #5f5f5f 45%, #9a9a9a);
+    }
+    .header { padding: 25px 20px 15px; }
+    .title-main { font-size: 42px; font-weight: 700; color: #fff; }
+    .title-main .blue { color: #2fa4e7; }
+    .subtitle { margin-top: 6px; font-size: 22px; color: #fff; }
 
-.title{
-  text-align:center;
-  font-weight:bold;
-  margin-bottom:20px;
-  font-size:18px;
-}
+    .blue-line {
+      height: 14px;
+      background: linear-gradient(to top, rgba(47,164,231,0.85), rgba(47,164,231,0));
+      box-shadow: 0 3px 8px rgba(47,164,231,0.5);
+    }
 
-.row{
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px solid #ddd;
-  padding:8px 0;
-  font-size:14px;
-}
+    .menu { padding: 8px 20px; display: flex; gap: 14px; }
+    .menu a {
+      padding: 10px 22px;
+      background: #fff;
+      border: 1px solid #9a9a9a;
+      border-radius: 4px;
+      color: #555;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+    }
 
-.status-valid{
-  color:#2e9e4f;
-  font-weight:bold;
-}
-.status-invalid{
-  color:red;
-  font-weight:bold;
-}
+    .content {
+      background: #fff;
+      margin: 30px 20px;
+      padding: 20px 24px;
+      max-width: 520px;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
 
-.footer{
-  text-align:center;
-  font-size:12px;
-  color:#777;
-  margin-top:20px;
-}
-</style>
+    .doc-card { display: flex; flex-direction: column; gap: 12px; }
+
+    .doc-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .doc-row {
+      display: grid;
+      grid-template-columns: 160px 10px 1fr;
+      gap: 6px;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .doc-status {
+      margin-top: 16px;
+      padding: 10px 0;
+      width: 160px;
+      text-align: center;
+      font-weight: 700;
+      border-radius: 4px;
+      align-self: flex-end;
+      background: #2e9e4f;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    #barcode-area, #qrcode {
+      margin-top: 15px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="header">
-  <h1>Dukungan Online KDEI</h1>
-  <p>Kantor Dagang dan Ekonomi Indonesia di Taipei</p>
+  <div class="title-main">dukungan <span class="blue">online kdei v3</span></div>
+  <div class="subtitle">Kantor Dagang dan Ekonomi Indonesia di Taipei</div>
 </div>
 
-<div class="container">
-  <div class="title">VERIFIKASI DOKUMEN</div>
+<div class="blue-line"></div>
 
-  <div class="row">
-    <span>Kode Dokumen</span>
-    <span id="kode">-</span>
-  </div>
+<div class="menu">
+  <a href="#">Mahkamah</a>
+  <a href="#">Registrasi Pengguna</a>
+  <a href="#">Persyaratan</a>
+</div>
 
-  <div class="row">
-    <span>Status</span>
-    <span id="status">-</span>
-  </div>
+<div class="content">
+  <div class="doc-card">
 
-  <div class="footer">
-    Sistem Verifikasi Dokumen KDEI
+    <div class="doc-title">KUITANSI</div>
+
+    <div class="doc-row"><span>Tanggal Masukan</span><span>:</span><span>2026-01-19</span></div>
+    <div class="doc-row"><span>Jenis Dokumen</span><span>:</span><span>Pengesahan Surat Kuasa Cerai</span></div>
+    <div class="doc-row"><span>Nomor Barcode</span><span>:</span><span id="kodeText">-</span></div>
+    <div class="doc-row"><span>Nama Pemohon</span><span>:</span><span>Vera Indriani</span></div>
+    <div class="doc-row"><span>Nama Petugas</span><span>:</span><span>Herlan</span></div>
+
+    <div class="doc-status">DISETUJUI</div>
+
+    <div id="barcode-area">
+      <svg id="barcode"></svg>
+    </div>
+
+    <div id="qrcode"></div>
+
   </div>
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const kode = params.get("kode");
+  // ambil kode dari URL
+  const params = new URLSearchParams(window.location.search);
+  const kodeDokumen = params.get("kode") || "190126FBC";
 
-const kodeValid = ["190126FBC","02004FBC"];
+  // tampilkan kode
+  document.getElementById("kodeText").textContent = kodeDokumen;
 
-const kodeEl = document.getElementById("kode");
-const statusEl = document.getElementById("status");
+  // barcode garis
+  JsBarcode("#barcode", kodeDokumen, {
+    format: "CODE128",
+    width: 2,
+    height: 50,
+    displayValue: true
+  });
 
-if(kode && kodeValid.includes(kode)){
-  kodeEl.textContent = kode;
-  statusEl.textContent = "VALID / TERDAFTAR";
-  statusEl.className = "status-valid";
-}else{
-  kodeEl.textContent = kode || "Tidak ditemukan";
-  statusEl.textContent = "TIDAK VALID";
-  statusEl.className = "status-invalid";
-}
+  new QRCode(document.getElementById("qrcode"), {
+  text: "https://namasaya1234444.github.io/verifikasi-kdei/?kode=" + kodeDokumen,
+  width: 120,
+  height: 120
+});
+
 </script>
 
 </body>
